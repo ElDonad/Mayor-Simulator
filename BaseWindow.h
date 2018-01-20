@@ -8,16 +8,16 @@
 class BaseWindow
 {
 public:
-	BaseWindow(sf::RenderWindow* renderWindow, sf::Vector2i size, std::string name);
+	BaseWindow(sf::Vector2i size, std::string name);
 	BaseWindow();
 	~BaseWindow();
 
-	virtual sf::Image update();
+	virtual sf::Texture update();
 
 private:
 	sf::Vector2i m_size;
 	std::string m_name;
 	sf::RenderWindow* m_renderWindow;
-	sf::Texture m_blankWindow;
+	sf::RenderTexture m_blankWindow;
 };
 
