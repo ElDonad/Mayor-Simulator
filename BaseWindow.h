@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+
 class BaseWindow
 {
 public:
@@ -12,12 +13,24 @@ public:
 	BaseWindow();
 	~BaseWindow();
 
-	virtual sf::Texture update();
+	enum Event {
+		Resized,
+		Closed,
+		GotFocus,
+		LostFocus
+	};
 
-private:
+	virtual std::vector <Event> update(sf::Vector2i mousePos, std::vector<sf::Keyboard::Key>pressedKeys, std::vector<sf::Mouse::Button> mouseButtons);
+	sf::Texture* getTexture();
+	sf::Vector2i getPos();
+	void setPos(sf::Vector2i newPos);
+
+
+protected:
 	sf::Vector2i m_size;
+	sf::Vector2i m_pos;
 	std::string m_name;
-	sf::RenderWindow* m_renderWindow;
-	sf::RenderTexture m_blankWindow;
+	sf::Texture m_window;
+	sf::RenderTexture m_progressWindow;
 };
 

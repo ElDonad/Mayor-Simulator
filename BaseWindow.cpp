@@ -4,46 +4,75 @@ using namespace std;
 
 BaseWindow::BaseWindow()
 {
-	sf::Image corner;
-	m_blankWindow.create(m_size.x + 10, m_size.y + 21);
-	m_blankWindow.create(m_size.x + 10, m_size.y + 21);
-
-	sf::Color borderColor (sf::Uint8(228), sf::Uint8(216), sf::Uint8(211));
-	corner.loadFromFile("ressources/images/window border.png");
-	sf::Image cornerWindow;
-	cornerWindow.create(m_size.x + 10, m_size.y + 21);
-
-	cornerWindow.copy(corner,0,0);
-	corner.flipHorizontally();
-	cornerWindow.copy(corner, m_size.x - 2, 0);
-	corner.flipVertically();
-	cornerWindow.copy(corner, m_size.x - 2, m_size.y - 2);
-	corner.flipHorizontally();
-	cornerWindow.copy(corner, 0, m_size.y - 2);
-
-	sf::Sprite borderSprite;
-	sf::Texture borderTexture;
-	borderTexture.create(cornerWindow.getSize().x, cornerWindow.getSize().y);
-	borderTexture.loadFromImage(cornerWindow);
-	borderSprite.setTexture(borderTexture);
-	m_blankWindow.draw(borderSprite);//les bords sont tracés
+	//temporaire :
+	m_size.x = 500;
+	m_size.y = 400;
 	
-	sf::RectangleShape centerRectangle(sf::Vector2f(5, 21));
-	centerRectangle.setSize(sf::Vector2f(m_size.x - 5, m_size.y - 5));
-	centerRectangle.setFillColor(sf::Color(sf::Uint8(241), sf::Uint8(241), sf::Uint8(241)));//couleur d'arrière plan
-	m_blankWindow.draw(centerRectangle);
+	
+	std::string root = "C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug";
+	sf::Color borderColor(112, 97, 69);
+	sf::Color middleColor(198, 186, 176);
+	m_progressWindow.create(m_size.x + 10, m_size.y + 26);
 
-	sf::RectangleShape leftBorder(sf::Vector2f(0, 2));
-	leftBorder.setFillColor(borderColor);
-	leftBorder.setSize(sf::Vector2f(5, m_size.y - 2));
-	m_blankWindow.draw(leftBorder);
+	sf::RectangleShape header(sf::Vector2f(m_size.x - 10, 21));
+	header.setFillColor(borderColor);
+	header.setPosition(sf::Vector2f(10, 0));
+	m_progressWindow.draw(header);
 
-	sf::RectangleShape bottomCorner(sf::Vector2f(0, m_size.y - 5));
-	bottomCorner.setFillColor(borderColor);
-	bottomCorner.setSize(sf::Vector2f(sf::Vector2f(m_size.x - 2, m_size.y - 2)));
-	m_blankWindow.draw(bottomCorner);
+	sf::Texture corners;
+	corners.create(22, 22);
+	corners.loadFromFile(root + "/ressources/images/window corner.png");
 
-	m_blankWindow.display();
+	sf::Sprite rightCorner(corners, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(10, 10)));
+	rightCorner.setPosition(sf::Vector2f(header.getSize().x + 10, 0));
+	rightCorner.setColor(borderColor);
+	m_progressWindow.draw(rightCorner);
+
+	sf::RectangleShape bottomRightCorner(sf::Vector2f(10, 11));
+	bottomRightCorner.setFillColor(borderColor);
+	bottomRightCorner.setPosition(rightCorner.getPosition().x, rightCorner.getPosition().y + 10);
+	m_progressWindow.draw(bottomRightCorner);
+
+	sf::Sprite leftCorner(corners, sf::IntRect(sf::Vector2i(0, 12), sf::Vector2i(10, 10)));
+	leftCorner.setColor(borderColor);
+	leftCorner.setPosition(sf::Vector2f(0, 0));
+	m_progressWindow.draw(leftCorner);
+
+	sf::RectangleShape bottomLeftCorner(sf::Vector2f(10, 11));
+	bottomLeftCorner.setFillColor(borderColor);
+	bottomLeftCorner.setPosition(leftCorner.getPosition().x, leftCorner.getPosition().y + 10);
+	m_progressWindow.draw(bottomLeftCorner);
+
+	sf::RectangleShape leftSide(sf::Vector2f(5, m_size.y));
+	leftSide.setFillColor(borderColor);
+	leftSide.setPosition(0, 21);
+	m_progressWindow.draw(leftSide);
+
+	sf::RectangleShape middle(static_cast <sf::Vector2f>(m_size));
+	middle.setFillColor(middleColor);
+	middle.setPosition(sf::Vector2f(5, 21));
+	m_progressWindow.draw(middle);
+
+	sf::RectangleShape rightSide(sf::Vector2f(5, m_size.y));
+	rightSide.setFillColor(borderColor);
+	rightSide.setPosition(m_size.x + 5, 21);
+	m_progressWindow.draw(rightSide);
+
+	sf::RectangleShape bottomSide(sf::Vector2f(m_size.x + 10, 5));
+	bottomSide.setFillColor(borderColor);
+	bottomSide.setPosition(0, m_size.y + 21);
+	m_progressWindow.draw(bottomSide);
+
+	sf::Font consolas;
+	consolas.loadFromFile("C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug/ressources/fonts/consola.ttf");
+	sf::Text testText("Hello World", consolas, 18);
+	testText.setPosition(6, 0);
+	m_progressWindow.draw(testText);
+
+	m_progressWindow.display();
+
+	m_window.create(m_progressWindow.getSize().x, m_progressWindow.getSize().y);
+	m_window = m_progressWindow.getTexture();
 
 }
 
@@ -53,13 +82,95 @@ BaseWindow::BaseWindow(sf::Vector2i size, std::string name)
 	m_size.x = size.x + 10;
 	m_size.y = size.y + 21;
 
+
+	std::string root = "C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug";
+	sf::Color borderColor(112, 97, 69);
+	sf::Color middleColor(198, 186, 176);
+	m_progressWindow.create(m_size.x + 10, m_size.y + 26);
+
+	sf::RectangleShape header(sf::Vector2f(m_size.x - 10, 21));
+	header.setFillColor(borderColor);
+	header.setPosition(sf::Vector2f(10, 0));
+	m_progressWindow.draw(header);
+
+	sf::Texture corners;
+	corners.create(22, 22);
+	corners.loadFromFile(root + "/ressources/images/window corner.png");
+
+	sf::Sprite rightCorner(corners, sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(10, 10)));
+	rightCorner.setPosition(sf::Vector2f(header.getSize().x + 10, 0));
+	rightCorner.setColor(borderColor);
+	m_progressWindow.draw(rightCorner);
+
+	sf::RectangleShape bottomRightCorner(sf::Vector2f(10, 11));
+	bottomRightCorner.setFillColor(borderColor);
+	bottomRightCorner.setPosition(rightCorner.getPosition().x, rightCorner.getPosition().y + 10);
+	m_progressWindow.draw(bottomRightCorner);
+
+	sf::Sprite leftCorner(corners, sf::IntRect(sf::Vector2i(0, 12), sf::Vector2i(10, 10)));
+	leftCorner.setColor(borderColor);
+	leftCorner.setPosition(sf::Vector2f(0, 0));
+	m_progressWindow.draw(leftCorner);
+
+	sf::RectangleShape bottomLeftCorner(sf::Vector2f(10, 11));
+	bottomLeftCorner.setFillColor(borderColor);
+	bottomLeftCorner.setPosition(leftCorner.getPosition().x, leftCorner.getPosition().y + 10);
+	m_progressWindow.draw(bottomLeftCorner);
+
+	sf::RectangleShape leftSide(sf::Vector2f(5, m_size.y));
+	leftSide.setFillColor(borderColor);
+	leftSide.setPosition(0, 21);
+	m_progressWindow.draw(leftSide);
+
+	sf::RectangleShape middle(static_cast <sf::Vector2f>(m_size));
+	middle.setFillColor(middleColor);
+	middle.setPosition(sf::Vector2f(5, 21));
+	m_progressWindow.draw(middle);
+
+	sf::RectangleShape rightSide(sf::Vector2f(5, m_size.y));
+	rightSide.setFillColor(borderColor);
+	rightSide.setPosition(m_size.x + 5, 21);
+	m_progressWindow.draw(rightSide);
+
+	sf::RectangleShape bottomSide(sf::Vector2f(m_size.x + 10, 5));
+	bottomSide.setFillColor(borderColor);
+	bottomSide.setPosition(0, m_size.y + 21);
+	m_progressWindow.draw(bottomSide);
+
+	sf::Font consolas;
+	consolas.loadFromFile("C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug/ressources/fonts/consola.ttf");
+	sf::Text testText(name, consolas, 18);
+	testText.setPosition(6, 0);
+	m_progressWindow.draw(testText);
+
+	m_progressWindow.display();
+
+	m_window.create(m_progressWindow.getSize().x, m_progressWindow.getSize().y);
+	m_window = m_progressWindow.getTexture();
+
 }
 
 BaseWindow::~BaseWindow()
 {
 }
 
-sf::Texture BaseWindow::update()
+vector <BaseWindow::Event> BaseWindow::update(sf::Vector2i mousePos, vector<sf::Keyboard::Key> pressedKeys, std::vector<sf::Mouse::Button> mouseButtons)
 {
-	return m_blankWindow.getTexture();
+
 }
+
+sf::Texture* BaseWindow::getTexture()
+{
+	return &m_window;
+}
+
+sf::Vector2i BaseWindow::getPos()
+{
+	return m_pos;
+}
+
+void BaseWindow::setPos(sf::Vector2i newPos)
+{
+	m_pos = newPos;
+}
+
