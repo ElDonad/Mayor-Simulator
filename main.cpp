@@ -1,20 +1,24 @@
 #include <SFML/Graphics.hpp>
 #include "BaseWindow.h"
+#include "ClosableWindow.h"
 #include <iostream>
 #include <string>
+#include "TestWindow.h"
 
 using namespace std;
 using namespace sf;
 
 int main()
 {
-	std::string root = "C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug"; 
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML works!");
-	sf::CircleShape shape(100.f);
+	string root = "C:/Users/Elie/Documents/Elie/divers/programmation/Mayor Simulator/MayorSimulator/MSimulator/Debug"; 
+	RenderWindow window(sf::VideoMode(1200, 800), "Mayor Simulator");
+	CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 	vector <BaseWindow*> windows;
-	windows.push_back(new BaseWindow(Vector2i(300, 500), "Coucou"));
-	windows[0]->setPos(Vector2i(50, 100));
+	//windows.push_back(new ClosableWindow(Vector2i(300, 500), "Coucou"));
+	//windows.push_back(new ClosableWindow(Vector2i(80, 110), "Deuxième fenêtre"));
+	windows.push_back(new TestWindow(Vector2i(300, 600), "Test"));
+	windows[0]->setPos(Vector2i(250, 100));
 
 	while (window.isOpen())
 	{
@@ -27,7 +31,7 @@ int main()
 		}
 
 		window.clear();
-		std::vector <sf::Mouse::Button> mouseButtons;
+		vector <sf::Mouse::Button> mouseButtons;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			mouseButtons.push_back(sf::Mouse::Left);
 
@@ -51,7 +55,6 @@ int main()
 			window.draw(toDraw);
 		}
 
-//		std::cout << machin.getSize().y;
 
 		window.display();
 	}

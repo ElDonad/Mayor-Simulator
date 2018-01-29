@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "BaseWidget.h"
 
 
 class BaseWindow
@@ -32,5 +33,10 @@ protected:
 	std::string m_name;
 	sf::Texture m_window;
 	sf::RenderTexture m_progressWindow;
+	//la fonction à surcharger pour gérer les widgets
+	virtual void updateWidgets(sf::Vector2i mousePosition, std::vector <sf::Keyboard::Key> keyPressed, std::vector <sf::Mouse::Button> mousePressed);
+	virtual void drawWidgets();
+
+	std::vector <BaseWidget*> m_widgets;
 };
 

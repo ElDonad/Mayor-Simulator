@@ -156,7 +156,10 @@ BaseWindow::~BaseWindow()
 
 vector <BaseWindow::Event> BaseWindow::update(sf::Vector2i mousePos, vector<sf::Keyboard::Key> pressedKeys, std::vector<sf::Mouse::Button> mouseButtons)
 {
-
+	
+	updateWidgets(mousePos, pressedKeys, mouseButtons);
+	drawWidgets();
+	return vector<Event>();
 }
 
 sf::Texture* BaseWindow::getTexture()
@@ -172,5 +175,26 @@ sf::Vector2i BaseWindow::getPos()
 void BaseWindow::setPos(sf::Vector2i newPos)
 {
 	m_pos = newPos;
+}
+
+void BaseWindow::updateWidgets(sf::Vector2i mousePosition, std::vector <sf::Keyboard::Key> keyPressed, std::vector <sf::Mouse::Button> mousePressed)
+{
+	for (int loop = 0; loop != m_widgets.size(); loop++)
+	{
+		m_widgets[loop]->update(mousePosition, keyPressed, mousePressed);
+	}
+}
+
+void BaseWindow::drawWidgets()
+{
+
+	for (int loop = 0; loop != m_widgets.size(); loop++)
+	{
+		sf::Sprite widgetSprite = m_widgets[loop]->getWidgetSprite();
+
+		widgetSprite.setPosition(static_cast <sf::Vector2f>( m_widgets[loop]->getPos()));
+		m_progressWindow.draw(widgetSprite);
+	}
+	m_progressWindow.display();
 }
 
